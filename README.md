@@ -14,23 +14,7 @@ Open the project folder in VS Code, then open the **Terminal** (`Ctrl+` ` ` or *
 npm install
 ```
 
-### 2. Configure environment
-
-Copy `.env.example` to `.env` and fill in your bot token:
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env`:
-
-```
-VITE_TELEGRAM_BOT_TOKEN=your_bot_token_here   # from @BotFather
-```
-
-> **Note:** The bot token is kept server-side for validating Telegram requests. Never commit `.env`.
-
-### 3. Start the dev server
+### 2. Start the dev server
 
 ```bash
 npm run dev
@@ -44,7 +28,7 @@ The app runs at `http://localhost:3000`.
 
 Telegram Mini Apps require an **HTTPS URL**. Use a tunnel to expose your local server.
 
-### Option A — Cloudflare Tunnel (recommended, free, no account needed)
+### Option - Cloudflare Tunnel (recommended, free, no account needed)
 
 1. Install once:
    ```bash
@@ -59,15 +43,6 @@ Telegram Mini Apps require an **HTTPS URL**. Use a tunnel to expose your local s
    cloudflared tunnel --url http://localhost:3000
    ```
 4. Copy the `https://….trycloudflare.com` URL from the output.
-
-### Option B — ngrok
-
-1. Install: `brew install ngrok` (or download from ngrok.com)
-2. Run the dev server: `npm run dev`
-3. In a second terminal: `ngrok http 3000`
-4. Copy the `https://….ngrok-free.app` URL.
-
----
 
 ## Connecting to Telegram BotFather
 
