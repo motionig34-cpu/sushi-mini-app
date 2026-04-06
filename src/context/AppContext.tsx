@@ -58,6 +58,10 @@ interface AppContextType {
   payment: PaymentMethod
   setPayment: (p: PaymentMethod) => void
 
+  // Theme
+  isDark: boolean
+  toggleTheme: () => void
+
   // Cash change
   changeAmount: string
   setChangeAmount: (s: string) => void
@@ -113,6 +117,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [payment, setPaymentState] = useState<PaymentMethod>(() =>
     readLS('maguro_payment', 'cash')
   )
+
+  // Theme
+  const [isDark, setIsDark] = useState<boolean>(() => readLS('maguro_theme', true))
+  const toggleTheme = useCallback(() => setIsDark(prev => !prev), [])
+  useEffect(() => { localStorage.setItem('maguro_theme', JSON.stringify(isDark)) }, [isDark])
 
   // Session-only state
   const [chopsticks, setChopsticks] = useState(0)
@@ -175,6 +184,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   return (
     <AppContext.Provider
       value={{
+        isDark, toggleTheme,
         cart, addToCart, removeFromCart, updateQuantity, clearCart, cartTotal, cartCount,
         favorites, toggleFavorite, isFavorite,
         chopsticks, setChopsticks,

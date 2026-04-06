@@ -6,10 +6,10 @@ interface Props {
   onTabChange: (tab: Tab) => void
 }
 
-function MenuIcon({ active }: { active: boolean }) {
+function MenuIcon({ active, isDark }: { active: boolean; isDark: boolean }) {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-      stroke={active ? '#fff' : '#555'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      stroke={active ? (isDark ? '#fff' : '#0D0D0D') : '#888'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="3" width="7" height="7" rx="1" />
       <rect x="14" y="3" width="7" height="7" rx="1" />
       <rect x="14" y="14" width="7" height="7" rx="1" />
@@ -18,20 +18,21 @@ function MenuIcon({ active }: { active: boolean }) {
   )
 }
 
-function HeartIcon({ active }: { active: boolean }) {
+function HeartIcon({ active, isDark }: { active: boolean; isDark: boolean }) {
+  const activeColor = isDark ? '#fff' : '#0D0D0D'
   return (
     <svg width="22" height="22" viewBox="0 0 24 24"
-      fill={active ? '#fff' : 'none'}
-      stroke={active ? '#fff' : '#555'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      fill={active ? activeColor : 'none'}
+      stroke={active ? activeColor : '#888'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
     </svg>
   )
 }
 
-function CartIcon({ active }: { active: boolean }) {
+function CartIcon({ active, isDark }: { active: boolean; isDark: boolean }) {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-      stroke={active ? '#fff' : '#555'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      stroke={active ? (isDark ? '#fff' : '#0D0D0D') : '#888'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
       <line x1="3" y1="6" x2="21" y2="6" />
       <path d="M16 10a4 4 0 0 1-8 0" />
@@ -39,10 +40,10 @@ function CartIcon({ active }: { active: boolean }) {
   )
 }
 
-function InfoIcon({ active }: { active: boolean }) {
+function InfoIcon({ active, isDark }: { active: boolean; isDark: boolean }) {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-      stroke={active ? '#fff' : '#555'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      stroke={active ? (isDark ? '#fff' : '#0D0D0D') : '#888'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10" />
       <line x1="12" y1="8" x2="12" y2="12" />
       <line x1="12" y1="16" x2="12.01" y2="16" strokeWidth="2.5" />
@@ -58,14 +59,14 @@ const TABS: { id: Tab; label: string }[] = [
 ]
 
 export default function BottomNav({ activeTab, onTabChange }: Props) {
-  const { cartCount } = useApp()
+  const { cartCount, isDark } = useApp()
 
   const renderIcon = (id: Tab, active: boolean) => {
     switch (id) {
-      case 'menu':      return <MenuIcon active={active} />
-      case 'favorites': return <HeartIcon active={active} />
-      case 'cart':      return <CartIcon active={active} />
-      case 'about':     return <InfoIcon active={active} />
+      case 'menu':      return <MenuIcon active={active} isDark={isDark} />
+      case 'favorites': return <HeartIcon active={active} isDark={isDark} />
+      case 'cart':      return <CartIcon active={active} isDark={isDark} />
+      case 'about':     return <InfoIcon active={active} isDark={isDark} />
     }
   }
 
@@ -90,7 +91,7 @@ export default function BottomNav({ activeTab, onTabChange }: Props) {
                 </span>
               )}
             </div>
-            <span className={`text-[10px] font-bold ${active ? 'text-white' : 'text-gray-600'}`}>
+            <span className={`text-[10px] font-bold ${active ? 'text-white' : 'text-gray-600'}`} style={active && !isDark ? { color: '#0D0D0D' } : undefined}>
               {tab.label}
             </span>
           </button>

@@ -2,6 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-bg: #0D0D0D;
+  --color-card: #1A1A1A;
+  --color-border: #2A2A2A;
+  --color-text: #ffffff;
+  --color-text-muted: #666666;
+  --color-pill-bg: rgba(255,255,255,0.07);
+  --color-pill-active-bg: #ffffff;
+  --color-pill-active-text: #000000;
+}
+
+.light {
+  --color-bg: #F2F2EF;
+  --color-card: #FFFFFF;
+  --color-border: #E0E0E0;
+  --color-text: #0D0D0D;
+  --color-text-muted: #888888;
+  --color-pill-bg: rgba(0,0,0,0.06);
+  --color-pill-active-bg: #0D0D0D;
+  --color-pill-active-text: #ffffff;
+}
+
+/* Light theme text overrides */
+.light .text-white { color: #0D0D0D !important; }
+.light .text-gray-500 { color: #888 !important; }
+.light .text-gray-600 { color: #999 !important; }
+
 * {
   -webkit-tap-highlight-color: transparent;
   box-sizing: border-box;
@@ -10,8 +37,8 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #0D0D0D;
-  color: #ffffff;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   overflow-x: hidden;
 }
 
@@ -67,7 +94,7 @@ input, textarea {
   transform: translateX(-50%);
   width: 100%;
   max-width: 430px;
-  background: #1A1A1A;
+  background: var(--color-card);
   border-radius: 20px 20px 0 0;
   z-index: 50;
   animation: slideUpSheet 0.35s cubic-bezier(0.32, 0.72, 0, 1);

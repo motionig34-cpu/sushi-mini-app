@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import WebApp from '@twa-dev/sdk'
-import { AppProvider } from './context/AppContext'
+import { AppProvider, useApp } from './context/AppContext'
 import BottomNav from './components/BottomNav'
 import MenuTab from './tabs/MenuTab'
 import FavoritesTab from './tabs/FavoritesTab'
@@ -13,6 +13,7 @@ export type Tab = 'menu' | 'favorites' | 'cart' | 'about'
 function AppContent() {
   const [activeTab, setActiveTab] = useState<Tab>('menu')
   const [checkoutOpen, setCheckoutOpen] = useState(false)
+  const { isDark } = useApp()
 
   useEffect(() => {
     try {
@@ -24,7 +25,7 @@ function AppContent() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-bg" style={{ paddingBottom: 70 }}>
+    <div className={`min-h-screen bg-bg${isDark ? '' : ' light'}`} style={{ paddingBottom: 70 }}>
       {activeTab === 'menu'      && <MenuTab />}
       {activeTab === 'favorites' && <FavoritesTab />}
       {activeTab === 'cart'      && <CartTab onCheckout={() => setCheckoutOpen(true)} />}

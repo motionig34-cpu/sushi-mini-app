@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: '#0D0D0D',
-        card: '#1A1A1A',
-        border: '#2A2A2A',
+        bg: 'var(--color-bg)',
+        card: 'var(--color-card)',
+        border: 'var(--color-border)',
       },
       fontFamily: {
         sans: ['Nunito', 'system-ui', 'sans-serif'],
