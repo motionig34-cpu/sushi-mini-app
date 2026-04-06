@@ -9,11 +9,41 @@ export default function AboutTab() {
         <p className="text-gray-500 text-xs">Свежие суши и роллы с доставкой по Алматы</p>
       </div>
 
-      {/* 2GIS Map */}
-      <div className="mx-4 rounded-2xl overflow-hidden mb-4 relative" style={{ height: 220 }}>
-        <TwoGisMap height={220} />
+      {/* Map placeholder — styled like a map card */}
+      <div
+        className="mx-4 rounded-2xl overflow-hidden mb-4 relative flex items-end"
+        style={{ height: 220, background: '#1c2a1c' }}
+      >
+        {/* Grid lines to give a map feel */}
+        <svg
+          className="absolute inset-0 w-full h-full opacity-20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {Array.from({ length: 8 }).map((_, i) => (
+            <line key={`h${i}`} x1="0" y1={`${(i + 1) * 12.5}%`} x2="100%" y2={`${(i + 1) * 12.5}%`} stroke="#4ade80" strokeWidth="0.5" />
+          ))}
+          {Array.from({ length: 6 }).map((_, i) => (
+            <line key={`v${i}`} x1={`${(i + 1) * 16.66}%`} y1="0" x2={`${(i + 1) * 16.66}%`} y2="100%" stroke="#4ade80" strokeWidth="0.5" />
+          ))}
+          {/* "Streets" */}
+          <line x1="0" y1="45%" x2="100%" y2="45%" stroke="#4ade80" strokeWidth="2" />
+          <line x1="0" y1="65%" x2="100%" y2="65%" stroke="#4ade80" strokeWidth="1.5" />
+          <line x1="33%" y1="0" x2="33%" y2="100%" stroke="#4ade80" strokeWidth="2" />
+          <line x1="66%" y1="0" x2="66%" y2="100%" stroke="#4ade80" strokeWidth="1.5" />
+          {/* Diagonal road */}
+          <line x1="0" y1="80%" x2="50%" y2="20%" stroke="#4ade80" strokeWidth="1.5" />
+        </svg>
+
+        {/* Pin */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex flex-col items-center">
+            <div className="w-5 h-5 rounded-full bg-red-500 border-2 border-white shadow-lg shadow-red-500/50" />
+            <div className="w-0.5 h-3 bg-red-500" />
+          </div>
+        </div>
+
         {/* Address badge at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/70 backdrop-blur-sm px-4 py-2.5">
+        <div className="relative z-10 w-full bg-black/60 backdrop-blur-sm px-4 py-2.5">
           <p className="text-white font-bold text-sm">Алматы, ул. Толстого, 107/1</p>
           <p className="text-gray-400 text-xs mt-0.5">Пн–вс: 10:00–23:00</p>
         </div>
