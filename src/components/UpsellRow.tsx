@@ -18,10 +18,13 @@ export default function UpsellRow() {
             className="flex-shrink-0 w-28 bg-card rounded-xl overflow-hidden"
           >
             <div
-              className="h-20 flex items-center justify-center"
+              className="h-20 flex items-center justify-center overflow-hidden"
               style={{ background: getCategoryGradient(item.category) }}
             >
-              <span className="text-3xl select-none">{getCategoryEmoji(item.category)}</span>
+              {item.image
+                ? <img src={`/images/${item.image}`} alt={item.name} className="w-full h-full object-cover" />
+                : <span className="text-3xl select-none">{getCategoryEmoji(item.category)}</span>
+              }
             </div>
             <div className="p-2">
               <p className="text-white text-xs font-bold leading-tight line-clamp-2 mb-1">

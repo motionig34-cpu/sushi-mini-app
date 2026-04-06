@@ -74,4 +74,86 @@ See `public/images/README.md` for full instructions.
 npm run build
 ```
 
-Output is in `dist/`. Deploy to any static host (Vercel, Netlify, Cloudflare Pages, etc.).
+Output is in `dist/`. Deploy to any static host (Vercel, Netlify, Cloudflare Pages, Railway, etc.).
+
+---
+
+## Hosting on Railway (постоянный HTTPS-адрес)
+
+Railway даёт бесплатный постоянный HTTPS-домен вида `your-app.up.railway.app` — идеально для Telegram Mini App.
+
+### Шаг 1 — Подготовь репозиторий
+
+Убедись, что проект запушен на GitHub:
+
+```bash
+git add .
+git commit -m "ready for railway"
+git push
+```
+
+### Шаг 2 — Создай проект на Railway
+
+1. Зайди на [railway.app](https://railway.app) и войди через GitHub.
+2. Нажми **New Project → Deploy from GitHub repo**.
+3. Выбери репозиторий `sushi-mini-app`.
+
+### Шаг 3 — Настрой билд и запуск
+
+Railway автоматически определит Node.js. Нужно явно указать команды.
+
+В дашборде Railway открой **Settings → Build & Deploy**:
+
+| Поле | Значение |
+|------|----------|
+| **Build Command** | `npm run build` |
+| **Start Command** | `npx serve dist --single --listen 3000` |
+
+> `--single` нужен для SPA — все маршруты отдают `index.html`.
+
+Либо добавь файл `railway.json` в корень проекта:
+
+```json
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "npm run build"
+  },
+  "deploy": {
+    "startCommand": "npx serve dist --single --listen 3000",
+    "restartPolicyType": "ON_FAILURE"
+  }
+}
+```
+
+### Шаг 4 — Задай переменную порта
+
+В Railway → **Variables** добавь:
+
+```
+PORT=3000
+```
+
+### Шаг 5 — Получи домен
+
+1. Перейди в **Settings → Networking → Generate Domain**.
+2. Railway выдаст URL вида `https://your-app.up.railway.app`.
+
+### Шаг 6 — Подключи к BotFather
+
+1. Открой [@BotFather](https://t.me/BotFather).
+2. `/mybots` → твой бот → **Bot Settings → Menu Button → Configure menu button**.
+3. Вставь `https://your-app.up.railway.app`.
+
+Теперь URL постоянный — менять в BotFather ничего не нужно при каждом перезапуске.
+
+---
+
+### Важно: переменные окружения
+
+Если в приложении есть `.env`-переменные (например `VITE_BOT_TOKEN`), добавь их в Railway → **Variables**. Railway подставит их при билде.
+
+```
+VITE_BOT_TOKEN=your_token_here
+```

@@ -22,10 +22,13 @@ export default function CartItem({ item, quantity }: Props) {
     <div className="flex items-center gap-3 py-3 border-b border-border last:border-0">
       {/* Image */}
       <div
-        className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+        className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden"
         style={{ background: getCategoryGradient(item.category) }}
       >
-        <span className="text-2xl select-none">{getCategoryEmoji(item.category)}</span>
+        {item.image
+          ? <img src={`/images/${item.image}`} alt={item.name} className="w-full h-full object-cover" />
+          : <span className="text-2xl select-none">{getCategoryEmoji(item.category)}</span>
+        }
       </div>
 
       {/* Info */}

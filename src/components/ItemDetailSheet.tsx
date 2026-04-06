@@ -42,7 +42,7 @@ export default function ItemDetailSheet({ item, onClose }: Props) {
           style={{ height: 200, background: getCategoryGradient(item.category) }}
         >
           {item.image
-            ? <img src={`/images/${item.image}`} alt={item.name} className="w-full h-full object-cover" />
+            ? <img src={`/images/${item.image}`} alt={item.name} className="w-full h-full object-cover" fetchPriority="high" />
             : <span className="text-8xl select-none">{getCategoryEmoji(item.category)}</span>
           }
 

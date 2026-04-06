@@ -126,18 +126,44 @@ export default function CheckoutSheet({ onClose, onSuccess }: Props) {
           {/* Map (delivery only) */}
           {deliveryMode === 'delivery' && (
             <div className="flex-1 relative min-h-0" style={{ minHeight: 200 }}>
-              <MapView mode="delivery" height="100%" />
+              <MapView height="100%" />
               <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[999] bg-black/80 backdrop-blur-sm text-white text-sm font-bold px-4 py-1.5 rounded-full pointer-events-none">
                 ~60 мин.
               </div>
             </div>
           )}
 
-          {/* Pickup: static restaurant card instead of re-centering map */}
+          {/* Pickup: static address card — no map to avoid black screen */}
           {deliveryMode === 'pickup' && (
             <div className="flex-1 flex flex-col items-center justify-center px-4 gap-4">
-              <div className="w-full rounded-2xl overflow-hidden" style={{ height: 220 }}>
-                <MapView mode="pickup" height={220} />
+              {/* Decorative map-like background */}
+              <div
+                className="w-full rounded-2xl overflow-hidden relative flex items-end"
+                style={{ height: 220, background: '#1c2a1c' }}
+              >
+                <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <line key={`h${i}`} x1="0" y1={`${(i + 1) * 12.5}%`} x2="100%" y2={`${(i + 1) * 12.5}%`} stroke="#4ade80" strokeWidth="0.5" />
+                  ))}
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <line key={`v${i}`} x1={`${(i + 1) * 16.66}%`} y1="0" x2={`${(i + 1) * 16.66}%`} y2="100%" stroke="#4ade80" strokeWidth="0.5" />
+                  ))}
+                  <line x1="0" y1="45%" x2="100%" y2="45%" stroke="#4ade80" strokeWidth="2" />
+                  <line x1="0" y1="65%" x2="100%" y2="65%" stroke="#4ade80" strokeWidth="1.5" />
+                  <line x1="33%" y1="0" x2="33%" y2="100%" stroke="#4ade80" strokeWidth="2" />
+                  <line x1="66%" y1="0" x2="66%" y2="100%" stroke="#4ade80" strokeWidth="1.5" />
+                  <line x1="0" y1="80%" x2="50%" y2="20%" stroke="#4ade80" strokeWidth="1.5" />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex flex-col items-center">
+                    <div className="w-5 h-5 rounded-full bg-red-500 border-2 border-white shadow-lg shadow-red-500/50" />
+                    <div className="w-0.5 h-3 bg-red-500" />
+                  </div>
+                </div>
+                <div className="relative z-10 w-full bg-black/60 backdrop-blur-sm px-4 py-2.5">
+                  <p className="text-white font-bold text-sm">Алматы, ул. Толстого, 107/1</p>
+                  <p className="text-gray-400 text-xs mt-0.5">Пн–вс: 10:00–23:00</p>
+                </div>
               </div>
             </div>
           )}
