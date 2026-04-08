@@ -21,10 +21,11 @@ export default function ItemCard({ item, onClick }: Props) {
         className="relative w-full h-32 flex items-center justify-center overflow-hidden"
         style={{ background: getCategoryGradient(item.category) }}
       >
-        {item.image
-          ? <img src={`/images/${item.image}`} alt={item.name} className="w-full h-full object-cover" />
-          : <span className="text-5xl select-none">{getCategoryEmoji(item.category)}</span>
-        }
+        {item.image ? (
+          <img src={`/images/${item.image}`} alt={item.name} className="w-full h-full object-cover" />
+        ) : (
+          <span className="text-5xl select-none">{getCategoryEmoji(item.category)}</span>
+        )}
 
         {item.badge && (
           <div className="absolute top-2 left-2 bg-red-600 text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded leading-tight max-w-[70px]">

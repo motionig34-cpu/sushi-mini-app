@@ -1,30 +1,35 @@
 import { useState } from 'react'
-import { menuItems } from '../data/menu'
-import type { MenuItem, Category } from '../data/menu'
+import { useNavigate } from 'react-router-dom'
+import { menuItems, formatPrice } from '../data/menu'
+import type { Category } from '../data/menu'
 import ItemCard from '../components/ItemCard'
-import ItemDetailSheet from '../components/ItemDetailSheet'
 import { useApp } from '../context/AppContext'
+import { useCartStore } from '../stores/cartStore'
 
 type FilterCategory = 'Все' | Category
 
 const CATEGORIES: FilterCategory[] = ['Все', 'Classic', 'RAW', "Author's"]
 
-export default function MenuTab() {
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null)
+export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState<FilterCategory>('Все')
   const { isDark, toggleTheme } = useApp()
+  const navigate = useNavigate()
 
-  const filtered = activeCategory === 'Все'
-    ? menuItems
-    : menuItems.filter(item => item.category === activeCategory)
+  const totalItems = useCartStore(s => s.totalItems())
+  const totalPrice = useCartStore(s => s.totalPrice())
+
+  const filtered =
+    activeCategory === 'Все'
+      ? menuItems
+      : menuItems.filter(item => item.category === activeCategory)
 
   const iconColor = isDark ? 'white' : '#0D0D0D'
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className={`min-h-screen bg-bg${isDark ? '' : ' light'}`} style={{ paddingBottom: totalItems > 0 ? 96 : 24 }}>
       {/* ── Sticky header ── */}
       <div className="sticky top-0 z-20 bg-bg px-4 pt-5 pb-3">
-        {/* Top row: city | MAGURO | theme toggle */}
+        {/* Top row */}
         <div className="flex items-center justify-between mb-4">
           <button className="flex items-center gap-1 text-gray-500 text-xs font-semibold">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -42,7 +47,6 @@ export default function MenuTab() {
             aria-label="Toggle theme"
           >
             {isDark ? (
-              /* Sun icon */
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="5" />
                 <line x1="12" y1="1" x2="12" y2="3" />
@@ -55,7 +59,6 @@ export default function MenuTab() {
                 <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
               </svg>
             ) : (
-              /* Moon icon */
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
               </svg>
@@ -87,17 +90,32 @@ export default function MenuTab() {
           <ItemCard
             key={item.id}
             item={item}
-            onClick={() => setSelectedItem(item)}
+            onClick={() => navigate(`/item/${item.id}`)}
           />
         ))}
       </div>
 
-      {/* ── Item detail bottom sheet ── */}
-      {selectedItem && (
-        <ItemDetailSheet
-          item={selectedItem}
-          onClose={() => setSelectedItem(null)}
-        />
+      {/* ── Floating cart button ── */}
+      {totalItems > 0 && (
+        <button
+          onClick={() => navigate('/cart')}
+          className="fixed bottom-5 left-1/2 z-30 bg-white text-black rounded-2xl font-black shadow-xl active:scale-95 transition-transform"
+          style={{
+            transform: 'translateX(-50%)',
+            width: 'calc(100% - 2rem)',
+            maxWidth: 390,
+            display: 'flex',
+            alignItems: 'center',
+            padding: '14px 20px',
+            gap: 12,
+          }}
+        >
+          <span className="bg-black text-white text-xs font-black rounded-xl w-7 h-7 flex items-center justify-center flex-shrink-0">
+            {totalItems > 9 ? '9+' : totalItems}
+          </span>
+          <span className="flex-1 text-left text-base">Корзина</span>
+          <span className="text-base">{formatPrice(totalPrice)}</span>
+        </button>
       )}
     </div>
   )
