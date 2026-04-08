@@ -69,6 +69,14 @@ input, textarea {
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* Leaflet container dark background */
+.leaflet-container {
+  background: #1a1a1a !important;
+}
+.leaflet-control-attribution {
+  display: none !important;
+}
+
 /* Bottom sheet backdrop */
 .sheet-backdrop {
   position: fixed;
