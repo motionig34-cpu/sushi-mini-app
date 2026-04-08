@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "vite --host 0.0.0.0 --port 3000"
+    "start": "npx serve dist --single --listen 3000"
   },
   "dependencies": {
     "@2gis/mapgl": "^1.72.0",

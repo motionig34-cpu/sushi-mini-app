@@ -22,7 +22,7 @@ export default function ItemCard({ item, onClick }: Props) {
         style={{ background: getCategoryGradient(item.category) }}
       >
         {item.image
-          ? <img src={`/images/${item.image}`} alt={item.name} className="w-full h-full object-cover" loading="eager" fetchPriority="high" />
+          ? <img src={`/images/${item.image}`} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
           : <span className="text-5xl select-none">{getCategoryEmoji(item.category)}</span>
         }
 
